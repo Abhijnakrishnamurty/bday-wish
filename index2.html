@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday Sam</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&family=Titan+One&family=Sriracha&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CORE RESET --- */
+        * { padding: 0; margin: 0; box-sizing: border-box; }
+        :root {
+            --pink: #feecea;
+            --white: #fff;
+            --black: #333;
+            --text-pink: #449bff;
+            --heart: #FF7882;
+            --cake-base: #5D4037;
+            --icing: #3E2723;
+            --cherry: #D32F2F;
+        }
+        /* Firefly Animation */
+.firefly {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background-color: #ffeb3b;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1; /* Behind the main content */
+    animation: fly 10s infinite linear;
+}
+
+@keyframes fly {
+    0% { transform: translate(0, 0); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translate(100px, -150px); opacity: 0; }
+}
+        body {
+            background: #000 url('./images/wp6001771.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Poppins', sans-serif;
+            color: var(--white);
+            /* FIXED: Use dvh to prevent jumpy layout on mobile address bars */
+            height: 100vh;
+            height: 100dvh; 
+            overflow: hidden;
+        }
+
+        #wrapper {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- 1. TITLE & FLAGS --- */
+        .flag__birthday {
+            position: absolute; top: -10px; width: 100%;
+            display: flex; justify-content: space-between; pointer-events: none; z-index: 1;
+        }
+        .flag__birthday .flag__left { transform: rotate(-10deg) translate(-10px, 10px); width: 120px; }
+        .flag__birthday .flag__right { transform: rotate(10deg) translate(10px, 10px) scaleX(-1); width: 120px; }
+
+        .title {
+            position: relative; margin-top: 50px; z-index: 10; text-align: center;
+            font-family: "Titan One", sans-serif; font-size: 2.5rem; width: 100%;
+        }
+        .title .happy { color: var(--white); text-shadow: 3px 3px 0 var(--black); margin-right: 5px; }
+        .title .birthday { color: var(--text-pink); text-shadow: 3px 3px 0 var(--black); }
+
+        /* --- 2. FLYING PHOTO --- */
+        .flying-container {
+            position: absolute; bottom: -600px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            width: 300px; z-index: 5;
+            animation: flyUpWithBalloons 6s cubic-bezier(0.17, 0.67, 0.31, 1.15) forwards;
+            animation-delay: 0.5s;
+        }
+        @keyframes flyUpWithBalloons {
+            0% { bottom: -600px; }
+            100% { bottom: 45%; }
+        }
+        .floating-content { animation: gentleFloat 3s infinite ease-in-out; animation-delay: 6.5s; }
+        @keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        .image-box {
+            width: 260px; height: 260px; border-radius: 50%;
+            border: 6px solid var(--white); overflow: hidden; background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; z-index: 2;
+        }
+        .image-box img { width: 100%; height: 100%; object-fit: cover; }
+        .balloon-set { position: absolute; top: -80px; width: 100%; display: flex; justify-content: space-between; pointer-events: none; z-index: 3; }
+
+        /* --- TIMER --- */
+        .love-clock {
+            position: absolute; top: 50%; left: 10px;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+            border-radius: 15px; padding: 10px; border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.8rem; text-align: center;
+            animation: slideInLeft 1s forwards; animation-delay: 5s; opacity: 0;
+        }
+        @keyframes slideInLeft { from { transform: translateX(-50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* --- MUSIC CONTROL --- */
+        .music-control {
+            position: absolute; top: 20px; right: 20px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.5);
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 100; color: white;
+            font-size: 1.2rem;
+        }
+
+        /* --- BUTTON --- */
+        .main-action {
+            position: absolute; bottom: 25%; left: 50%; transform: translateX(-50%);
+            opacity: 0; animation: fadeUpBtn 1s forwards; animation-delay: 6s; z-index: 20;
+            width: 100%; text-align: center; /* Center align fix */
+        }
+        #btn__letter {
+            background: var(--text-pink); color: white; border: none; padding: 12px 30px;
+            border-radius: 50px; font-family: "Sriracha", cursive; font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(68, 155, 255, 0.5); cursor: pointer;
+            transition: transform 0.2s;
+        }
+        #btn__letter:active { transform: scale(0.95); }
+        @keyframes fadeUpBtn { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+        /* --- CAKE & CANDLE --- */
+        .cake-wrapper {
+            position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; z-index: 10;
+        }
+        
+        .cake {
+            width: 150px; height: 80px; background: var(--cake-base);
+            border-radius: 10px 10px 5px 5px; position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .cake::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; opacity: 0.9; height: 30px;
+            background: var(--icing); border-radius: 10px 10px 5px 5px;
+            background-image: radial-gradient(circle at 10px 15px, var(--icing) 12px, transparent 13px);
+            background-size: 20px 40px; background-repeat: repeat-x;
+        }
+        .plate {
+            width: 180px; height: 10px; background: #eee; border-radius: 10px;
+            margin-top: -5px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .candle-container {
+            position: relative; bottom: -5px; transform: scale(1.2); cursor: pointer;
+        }
+        .candle-stick { width: 15px; height: 40px; background: linear-gradient(to right, #e74c3c, #ff9a9e); border-radius: 4px; }
+        .flame {
+            width: 15px; height: 15px; background: orange; border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 10px orange, 0 0 20px yellow;
+            animation: flicker 0.1s infinite;
+            position: absolute; top: -15px; left: 0;
+        }
+        .smoke { opacity: 0; position: absolute; top: -30px; left: -5px; color: #aaa; font-size: 20px; transition: 1s; }
+        
+        .candle-container.blown .flame { display: none; }
+        .candle-container.blown .smoke { opacity: 1; transform: translateY(-20px); }
+        @keyframes flicker { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.9); opacity: 0.8; } }
+
+        .wish-text {
+            position: absolute; top: -50px; width: 150px; left: 50%; transform: translateX(-50%);
+            text-align: center; font-size: 0.8rem; color: #fff; pointer-events: none;
+            animation: floatText 2s infinite ease-in-out;
+        }
+        @keyframes floatText { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -5px); } }
+
+        /* --- ANIMATED HEARTS --- */
+        .floating-heart {
+            position: fixed; bottom: -50px; color: var(--heart); font-size: 20px;
+            animation: floatUpHeart 4s linear forwards; pointer-events: none; z-index: 50;
+        }
+        @keyframes floatUpHeart {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+        }
+
+        /* --- MODAL --- */
+        .message-display { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); display:none; justify-content:center; align-items:center; z-index:1000; }
+        .message-display.active { display: flex; }
+        .message-container { background: #fff; color: #333; padding: 25px; border-radius: 20px; width: 90%; max-height: 80vh; overflow-y: scroll; text-align: center; position: relative; }
+        /* --- CANDLE POPUP MESSAGE --- */
+.candle-msg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0); /* Hidden by default */
+    background: white;
+    color: #333;
+    padding: 20px 30px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    font-family: 'Sriracha', cursive;
+    font-size: 1.2rem;
+    z-index: 2000;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+    pointer-events: none;
+}
+.candle-msg.show {
+    transform: translate(-50%, -50%) scale(1); /* Pop up! */
+}
+   /* --- SLIDE TO UNLOCK STYLES --- */
+.slide-action {
+    position: absolute;
+    top: 130px; /* NEW Position: Just below the Happy Birthday title */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    opacity: 0;
+    /* We need a new fade-in animation since 'fadeUpBtn' moves from the bottom */
+    animation: fadeInSlide 1s 6s forwards; 
+}
+
+/* New Animation for Top Placement */
+@keyframes fadeInSlide { 
+    from { opacity: 0; } 
+    to { opacity: 1; } 
+}
+
+.slider-lock {
+    width: 100%;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    padding: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.slider-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
+    pointer-events: none;
+    font-family: 'Sriracha', cursive;
+    padding: 0 10px;
+}
+
+.slider-knob {
+    width: 40px;
+    height: 40px;
+    background: var(--heart);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    cursor: grab;
+    transition: none;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.slider-knob i {
+    animation: pulseArrow 1s infinite;
+}
+
+@keyframes pulseArrow {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+   </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop src="./images/divine_9ew96escn38_ee00160e.mp3"></audio>
+    
+    <div id="wrapper">
+        <div class="flag__birthday">
+            <img src="./images/1.png" class="flag__left">
+            <img src="./images/1.png" class="flag__right">
+        </div>
+
+        <div class="title">
+            <span class="happy">Happy</span>
+            <span class="birthday">Birthday</span>
+        </div>
+
+        <div class="flying-container">
+            <div class="floating-content">
+                <div class="balloon-set">
+                    <img src="./images/balloon1.png" width="60" class="b-left">
+                    <img src="./images/balloon2.png" width="60" class="b-right">
+                </div>
+                <div class="image-box">
+                    <img src="./images/unnamed.jpg" alt="Sam">
+                </div>
+            </div>
+        </div>
+
+        <div class="love-clock">
+            <span>Since you came into my life😘</span><br>
+            <span id="timer" style="color:var(--text-blue); font-weight:bold;">0d 0h</span>
+        </div>
+
+        <button class="music-control" onclick="toggleMusic()">
+            <i class="fa-solid fa-music" id="music-icon"></i>
+        </button>
+
+        <div class="main-action">
+            <button id="btn__letter">
+                Click here zuzuu❤️ <i class="fa-regular fa-envelope"></i>
+            </button>
+        </div>
+<div class="slide-action" id="slide-action-wrapper" style="z-index: 20;">
+    <div class="slider-lock" id="slider-container">
+        <div class="slider-text" id="slider-text">Slide to unlock my feelings ❤️</div>
+        <div class="slider-knob" id="slider-knob">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+    </div>
+</div>
+        <div class="cake-wrapper">
+            <div class="wish-text" id="wish-msg">Make a wish & tap!</div>
+            <div class="candle-container" id="candle" onclick="blowCandle()">
+                <div class="smoke"><i class="fa-solid fa-wind"></i></div>
+                <div class="flame"></div>
+                <div class="candle-stick"></div>
+            </div>
+            <div class="cake"></div>
+            <div class="plate"></div>
+        </div>
+        <div id="candle-msg" class="candle-msg">
+    May all your wishes come true! ✨
+</div>
+        <div class="message-display">
+            <div class="message-container">
+                <button class="close-message" style="position:absolute; right:20px; top:20px; border:none; background:none; font-size:1.5rem; cursor:pointer;"><i class="fa-solid fa-times"></i></button>
+                <h2 style="font-family:'Dancing Script'; color:#0752f4; margin-bottom:10px;">Meri Choti Don❤️</h2>
+                <div class="typing-text" id="msg-text" style="text-align:left; line-height:1.6; font-size: 0.95rem;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // !!! IMPORTANT: CHANGE THIS DATE TO A PAST DATE (WHEN YOU MET) !!!
+        // Format: Year, Month (0=Jan, 1=Feb... 6=July), Day
+        const startDate = new Date(2025, 6, 27); // Example: Feb 6, 2023
+
+        const music = document.getElementById('bg-music');
+        const musicIcon = document.getElementById('music-icon');
+        let isPlaying = false;
+
+        setInterval(() => {
+            const now = new Date();
+            const diff = now - startDate;
+            const d = Math.floor(diff / (1000*60*60*24));
+            document.getElementById('timer').innerText = `${d} Days`;
+        }, 1000);
+
+        function toggleMusic() {
+            if(isPlaying) {
+                music.pause();
+                musicIcon.className = "fa-solid fa-music";
+                musicIcon.style.animation = "none";
+            } else {
+                music.play();
+                musicIcon.className = "fa-solid fa-compact-disc";
+                musicIcon.style.animation = "spin 2s linear infinite";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        function blowCandle() {
+    const c = document.getElementById('candle');
+    const msg = document.getElementById('candle-msg'); // Get the new message box
+
+    if(!c.classList.contains('blown')) {
+        c.classList.add('blown');
+        document.getElementById('wish-msg').innerText = "Wish Granted! ✨";
+        
+        // Show the big popup message
+        msg.classList.add('show');
+        
+        // Hide it after 3 seconds so it doesn't block the screen
+        setTimeout(() => {
+            msg.classList.remove('show');
+        }, 3000);
+
+        // Confetti Blast
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.8 },
+            colors: ['#FFA500', '#FF4500']
+        });
+    }
+}
+
+        function createFloatingHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('floating-heart');
+                heart.innerHTML = '<i class="fa-solid fa-heart"></i>';
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 2 + 3 + "s"; 
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove() }, 5000);
+            }, 300);
+        }
+
+        document.getElementById('btn__letter').addEventListener('click', () => {
+            if(!isPlaying) toggleMusic();
+            document.querySelector('.message-display').classList.add('active');
+
+            // Confetti
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 2000 };
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                var particleCount = 50 * (timeLeft / duration);
+                confetti({ ...defaults, particleCount, origin: { x: 0.1, y: 0.9 }, shapes: ['heart'], colors: ['#ff6b6b', '#ff9ff3'] });
+                confetti({ ...defaults, particleCount, origin: { x: 0.9, y: 0.9 }, shapes: ['heart'], colors: ['#ff6b6b', '#ff9ff3'] });
+            }, 250);
+
+            createFloatingHearts();
+            
+            const text = "to the girl who make my life beautiful👩\n\nI wanted to build this because a simple card or text just did'nt feel like enough to hold everthing i feel for you. You are the best part of my everyday and the love of life😘\n\nThank u for ur kindness, ur laugther and the love u give freely😁\n\nI built this site line by line, just like we are building our future day by day😋\n\nit's just pure happiness that i found you😚\n\nWishing you a day filled with happiness, love, and all the things that make you smile. 😇\n\nI'm truly grateful to have you in my life — your kindness, strength, and genuine heart inspire me every day. 💫\n\nThank you for being such a wonderful presence and always bringing positive energy in my life. 💖\n\nMany happy returns of the day zuzuuuu! 🎂😊";
+            
+            const target = document.getElementById('msg-text');
+            target.innerHTML = "";
+            let i = 0;
+            if(window.typeTimer) clearInterval(window.typeTimer);
+            window.typeTimer = setInterval(() => {
+                if(i < text.length) {
+                    if(text.charAt(i) === "\n") {
+                        target.innerHTML += "<br>";
+                    } else {
+                        target.innerHTML += text.charAt(i);
+                    }
+                    i++;
+                } else clearInterval(window.typeTimer);
+            }, 40);
+        });
+
+        document.querySelector('.close-message').addEventListener('click', () => {
+            document.querySelector('.message-display').classList.remove('active');
+        });
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes spin { 100% { transform: rotate(360deg); } }
+        `;
+        document.head.appendChild(style);
+        // Fireflies Logic
+function createFireflies() {
+    const firefly = document.createElement('div');
+    firefly.className = 'firefly';
+    
+    // Random position
+    firefly.style.left = Math.random() * 100 + 'vw';
+    firefly.style.top = Math.random() * 100 + 'vh';
+    
+    // Random size variance
+    const size = Math.random() * 3 + 2;
+    firefly.style.width = size + 'px';
+    firefly.style.height = size + 'px';
+    
+    // Random animation speed
+    firefly.style.animationDuration = Math.random() * 5 + 5 + 's';
+    
+    document.body.appendChild(firefly);
+    
+    // Remove after animation
+    setTimeout(() => { firefly.remove(); }, 10000);
+}
+
+// Create a firefly every 500ms
+setInterval(createFireflies, 500);
+// --- SLIDER REDIRECT LOGIC ---
+const SLIDE_THRESHOLD = 150; // How many pixels the user must slide to trigger
+let slideStartX = 0;
+let slideCurrentX = 0;
+const knob = document.getElementById('slider-knob');
+const sliderContainer = document.getElementById('slider-container');
+const sliderText = document.getElementById('slider-text');
+
+// Function to handle the actual sliding and checking
+function handleSlide(e) {
+    let clientX;
+    if (e.touches) {
+        // Prevent accidental scrolling while sliding on mobile
+        e.preventDefault(); 
+        clientX = e.touches[0].clientX;
+    } else {
+        clientX = e.clientX;
+    }
+
+    const rect = sliderContainer.getBoundingClientRect();
+    let newX = clientX - slideStartX;
+
+    // Constrain the knob within the slider track
+    if (newX < 0) newX = 0;
+    const maxX = rect.width - knob.offsetWidth - 6; // 6px for padding/border
+    if (newX > maxX) newX = maxX;
+    
+    slideCurrentX = newX;
+    knob.style.transform = `translateX(${slideCurrentX}px)`;
+
+    // Check if the slide distance threshold is met
+    if (slideCurrentX >= SLIDE_THRESHOLD) {
+        sliderText.textContent = 'Unlocked! Redirecting...';
+        knob.style.backgroundColor = '#4CAF50'; 
+        
+        // This is the connection point: Redirect to the password page.
+        setTimeout(() => {
+            window.location.href = 'message.html'; 
+        }, 500); 
+        
+        // Cleanup
+        removeSlideListeners();
+    }
+}
+
+// Function to reset the knob
+function resetSlide() {
+    if (slideCurrentX < SLIDE_THRESHOLD) {
+        knob.style.transition = 'transform 0.3s ease-out';
+        knob.style.transform = 'translateX(0px)';
+        slideCurrentX = 0;
+        setTimeout(() => knob.style.transition = 'none', 300);
+    }
+    removeSlideListeners();
+}
+
+// Function to add listeners (Mouse & Touch)
+function addSlideListeners(e) {
+    // Disable body scrolling while sliding
+    document.body.style.overflow = 'hidden'; 
+    
+    // Get starting X position
+    slideStartX = e.touches ? e.touches[0].clientX - knob.getBoundingClientRect().left : e.clientX - knob.getBoundingClientRect().left;
+
+    // Attach drag and end handlers
+    document.addEventListener('mousemove', handleSlide);
+    document.addEventListener('mouseup', resetSlide);
+    document.addEventListener('touchmove', handleSlide, { passive: false }); // Needs passive: false for e.preventDefault()
+    document.addEventListener('touchend', resetSlide);
+}
+
+// Function to remove listeners
+function removeSlideListeners() {
+    // Re-enable body scrolling 
+    document.body.style.overflow = 'auto'; 
+    document.removeEventListener('mousemove', handleSlide);
+    document.removeEventListener('mouseup', resetSlide);
+    document.removeEventListener('touchmove', handleSlide);
+    document.removeEventListener('touchend', resetSlide);
+}
+
+// Attach the initial handler to start the drag/slide
+if (knob && sliderContainer) {
+    knob.addEventListener('mousedown', addSlideListeners);
+    knob.addEventListener('touchstart', addSlideListeners);
+} else {
+    console.error("Slider elements not found. Check HTML IDs.");
+
+}
+
+  
+  </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My True Feelings For You - Mystery Locked</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Sriracha&display=swap" rel="stylesheet">
+    <style>
+        /* --- General Reset & Background --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --paper: #fff8e4;
+            --ink: #333;
+            --heart: #FF7882;
+            --text-pink: #449bff;
+        }
+        body {
+            background: #000 url('./images/wp6001771.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Poppins', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* --- Password Input Area --- */
+        #password-gate {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 20; text-align: center; padding: 30px;
+            background: rgba(0, 0, 0, 0.7); border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+        #password-gate h2 {
+            font-family: 'Sriracha', cursive; color: var(--heart);
+            margin-bottom: 20px; font-size: 1.5rem;
+        }
+        #password-input {
+            padding: 10px 15px; border: 3px solid var(--heart); border-radius: 8px;
+            background: #111; color: white; font-size: 1.1rem; text-align: center;
+            outline: none; width: 250px; max-width: 80vw;
+        }
+        #error-message {
+            color: var(--heart); margin-top: 10px; opacity: 0; transition: opacity 0.3s;
+        }
+        
+        /* --- Letter Card Style --- */
+        #letter-container {
+            width: 100%; max-width: 700px; background: var(--paper);
+            border: 5px solid var(--ink); border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); padding: 40px;
+            text-align: center; position: relative;
+            min-height: 70vh; max-height: 90vh; overflow-y: auto;
+            /* Starts Hidden */
+            opacity: 0; visibility: hidden; transition: opacity 1s;
+        }
+        #letter-container.unlocked { opacity: 1; visibility: visible; }
+
+        /* --- Header --- */
+        #letter-header {
+            font-family: 'Dancing Script', cursive; color: var(--heart);
+            font-size: 2.5rem; margin-bottom: 20px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1); padding-bottom: 10px;
+        }
+
+        /* --- Content & Typewriter --- */
+        #letter-content {
+            text-align: left; font-size: 1.1rem; color: var(--ink);
+            line-height: 1.8; font-family: 'Poppins', sans-serif;
+        }
+        
+        .message-line {
+            min-height: 1.5em; margin-bottom: 15px;
+            /* FIXED: Opacity must be 1 so text shows up when typed */
+            opacity: 1; 
+        }
+
+        /* Cursor Effect */
+        .typing-active::after {
+            content: '|'; animation: blink 0.7s infinite; color: var(--heart);
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+        /* --- Footer --- */
+        #letter-footer {
+            margin-top: 40px; text-align: right; font-family: 'Sriracha', cursive;
+            font-size: 1.3rem; color: var(--text-pink);
+            opacity: 0; transition: opacity 1s;
+        }
+        #letter-footer.show { opacity: 1; }
+        
+        @media (max-width: 500px) {
+            #letter-container { padding: 20px; }
+            #letter-header { font-size: 2rem; }
+            #letter-content { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div id="password-gate">
+        <h2 style="color: white;"><i class="fa-solid fa-lock"></i> Locked Message</h2>
+        <input type="text" id="password-input" placeholder="Enter the Magic Word" maxlength="20">
+        <div id="error-message">Wrong word! Try again.</div>
+    </div>
+
+    <div id="letter-container">
+        
+        <h1 id="letter-header">To My Queen, Sampoorna</h1>
+
+        <div id="letter-content">
+            <p class="message-line">My dearest Sam, I wanted this moment to be completely separate from the celebrations—just us and these words.</p>
+            <p class="message-line">Every single day, you are the most beautiful, kind, and grounding presence in my life. You don't just complete me; you challenge me to be better than I was yesterday.</p>
+            <p class="message-line">I look back at all our inside jokes, all the tiny adventures, and even the simple, quiet moments, and realize that pure, unadulterated happiness is found right beside you.</p>
+            <p class="message-line">When you smile, I genuinely believe the world stops. That laugh of yours is the reason I wake up every morning.</p>
+            <p class="message-line">I know I don't say it enough, but thank you for your patience, your belief in me, and for filling my future with light and possibility.</p>
+            <p class="message-line">You are my safe space, my best friend, and the greatest love story I could ever hope to write.</p>
+            <p class="message-line">Happy Birthday, my love. Forever isn't long enough, but let's start there.</p>
+        </div>
+
+        <div id="letter-footer">
+            Yours Always,<br>
+            [Your Name Here]
+        </div>
+
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const CORRECT_PASSWORD = "zuzuu"; // <--- PASSWORD
+        const TYPING_SPEED = 30; // Speed in ms
+        
+        const gate = document.getElementById('password-gate');
+        const input = document.getElementById('password-input');
+        const errorMsg = document.getElementById('error-message');
+        const letterContainer = document.getElementById('letter-container');
+        const footer = document.getElementById('letter-footer');
+        
+        const lines = document.querySelectorAll('.message-line');
+        let lineContents = [];
+
+        // 1. Capture text immediately on load using textContent
+        // We use textContent because innerText can be empty if the element is hidden!
+        lines.forEach(line => {
+            lineContents.push(line.textContent);
+            line.textContent = ''; // Clear it visually
+        });
+
+        // 2. Typing Logic
+        function typeLine(lineIndex, charIndex) {
+            if (lineIndex >= lines.length) {
+                footer.classList.add('show');
+                return;
+            }
+
+            const currentElement = lines[lineIndex];
+            const currentText = lineContents[lineIndex];
+
+            currentElement.classList.add('typing-active');
+
+            if (charIndex < currentText.length) {
+                currentElement.textContent += currentText.charAt(charIndex);
+                setTimeout(() => typeLine(lineIndex, charIndex + 1), TYPING_SPEED);
+            } else {
+                currentElement.classList.remove('typing-active');
+                setTimeout(() => typeLine(lineIndex + 1, 0), 300); // Pause between lines
+            }
+        }
+
+        // 3. Unlock Logic
+        input.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') { 
+                const attempt = input.value.toLowerCase().trim();
+                if (attempt === CORRECT_PASSWORD) {
+                    gate.style.opacity = '0';
+                    setTimeout(() => {
+                        gate.style.display = 'none';
+                        letterContainer.classList.add('unlocked');
+                        setTimeout(() => typeLine(0, 0), 500); 
+                    }, 800);
+                } else {
+                    errorMsg.style.opacity = '1';
+                    input.value = '';
+                    input.focus();
+                    setTimeout(() => { errorMsg.style.opacity = '0'; }, 1500);
+                }
+            }
+        });
+        
+        window.onload = function() { input.focus(); };
+
+    </script>
+</body>
+</html>
