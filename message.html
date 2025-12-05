@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My True Feelings For You - Mystery Locked</title>
+    <title>For Zuzuu - Locked</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&family=Sriracha&display=swap" rel="stylesheet">
     <style>
@@ -13,9 +13,10 @@
             --paper: #fff8e4;
             --ink: #333;
             --heart: #FF7882;
-            --text-pink: #449bff;
+            --text-pink: hsl(356, 95%, 68%);
         }
         body {
+            /* Ensure you have an image at this path or change the URL */
             background: #000 url('./images/wp6001771.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Poppins', sans-serif;
@@ -28,8 +29,9 @@
         #password-gate {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 20; text-align: center; padding: 30px;
-            background: rgba(0, 0, 0, 0.7); border-radius: 15px;
+            background: rgba(0, 0, 0, 0.85); border-radius: 15px;
             box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
         }
         #password-gate h2 {
             font-family: 'Sriracha', cursive; color: var(--heart);
@@ -46,15 +48,24 @@
         
         /* --- Letter Card Style --- */
         #letter-container {
-            width: 100%; max-width: 700px; background: var(--paper);
+            width: 100%; max-width: 750px; background: var(--paper);
             border: 5px solid var(--ink); border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); padding: 40px;
             text-align: center; position: relative;
-            min-height: 70vh; max-height: 90vh; overflow-y: auto;
+            /* Height settings */
+            height: 80vh; 
+            overflow-y: auto; /* Allows scrolling */
+            
             /* Starts Hidden */
             opacity: 0; visibility: hidden; transition: opacity 1s;
         }
         #letter-container.unlocked { opacity: 1; visibility: visible; }
+
+        /* Custom Scrollbar for the letter */
+        #letter-container::-webkit-scrollbar { width: 8px; }
+        #letter-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        #letter-container::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        #letter-container::-webkit-scrollbar-thumb:hover { background: #555; }
 
         /* --- Header --- */
         #letter-header {
@@ -65,14 +76,14 @@
 
         /* --- Content & Typewriter --- */
         #letter-content {
-            text-align: left; font-size: 1.5rem; color: var(--ink);
-            line-height: 1.8; font-family: 'Poppins', sans-serif;
+            text-align: left; font-size: 1.1rem; color: var(--ink);
+            line-height: 1.6; font-family: 'Poppins', sans-serif;
+            padding-bottom: 20px; 
         }
         
         .message-line {
             min-height: 1.5em; margin-bottom: 15px;
-            /* FIXED: Opacity must be 1 so text shows up when typed */
-            opacity: 1; 
+            white-space: pre-wrap; 
         }
 
         /* Cursor Effect */
@@ -81,18 +92,23 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* --- Footer --- */
+        /* --- Footer (Signature) --- */
         #letter-footer {
-            margin-top: 40px; text-align: right; font-family: 'Sriracha', cursive;
-            font-size: 1.3rem; color: var(--text-pink);
-            opacity: 0; transition: opacity 1s;
+            margin-top: 30px; 
+            text-align: right; /* Aligns signature to right */
+            font-family: 'Sriracha', cursive;
+            font-size: 1.5rem; color: var(--text-pink);
+            opacity: 0; transition: opacity 2s; /* Slow fade in */
+            font-weight: bold;
+            padding-bottom: 20px;
         }
         #letter-footer.show { opacity: 1; }
         
         @media (max-width: 500px) {
             #letter-container { padding: 20px; }
             #letter-header { font-size: 2rem; }
-            #letter-content { font-size: 1rem; }
+            #letter-content { font-size: 0.95rem; }
+            #letter-footer { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -101,34 +117,57 @@
     <div id="password-gate">
         <h2 style="color: white;"><i class="fa-solid fa-lock"></i> Locked Message</h2>
         <input type="text" id="password-input" placeholder="Enter the Magic Word" maxlength="20">
-        <div id="error-message">Wrong word! Try again.</div>
+        <div id="error-message">galat hai gadhii🫏</div>
     </div>
 
     <div id="letter-container">
         
-        <h1 id="letter-header">To My Queen, Sampoorna</h1>
+        <h1 id="letter-header">Happy Birthday Zuzuu! ♥🎉</h1>
 
         <div id="letter-content">
-            <p class="message-line">My dearest Sam, I wanted this moment to be completely separate from the celebrations—just us and these words.</p>
-            <p class="message-line">Every single day, you are the most beautiful, kind, and grounding presence in my life. You don't just complete me; you challenge me to be better than I was yesterday.</p>
-            <p class="message-line">I look back at all our inside jokes, all the tiny adventures, and even the simple, quiet moments, and realize that pure, unadulterated happiness is found right beside you.</p>
-            <p class="message-line">When you smile, I genuinely believe the world stops. That laugh of yours is the reason I wake up every morning.</p>
-            <p class="message-line">I know I don't say it enough, but thank you for your patience, your belief in me, and for filling my future with light and possibility.</p>
-            <p class="message-line">You are my safe space, my best friend, and the greatest love story I could ever hope to write.</p>
-            <p class="message-line">Happy Birthday, my love. Forever isn't long enough, but let's start there.</p>
+            <p class="message-line">Umm, tum har baar puch rahe the naa mere desires/iraade kya hain? So suno: Mujhe aisi koi fantasies nahi hain. Kuch choti-choti cheezein hain—that I want to be with you in every up and down.</p>
+            <p class="message-line">I want to support you to achieve your dreams. I want to laugh, cry, share, and experience everything with you. I want to be a compatible partner for you. Mujhe abhi life mein bhot kuch experience karna baaki hai, and I want to experience everything only with you.</p>
+            <p class="message-line">Ab main kya batau yaar... like, tbh main avoid kar raha hoon ki kabse, kyu, kaise main pyaar mein pad gaya and all. Uska ek hi reason hai ki mujhe laga thaa—lagta hai—it's weird.</p>
+            <p class="message-line">Matlab jo main feel kar raha hu, woh justify karta hai kya? Like dekho, maine hi tumhe kaha tha "love mat karo," "attitude/behaviour badlo," bohot kuch... aur tbh, I guess yeh sab exact toh nahi bata sakta.</p>
+            <p class="message-line">Mid-Aug se hi aise "in-between" attachment and liking mein tha. Baad mein aur baatein hui, aur woh situationship and woh crush guy ke baare mein pata chala. Matlab wahi sab bohot jaanne laga, and ek baar "itna attached mat ho jao" bola tha tumne.</p>
+            <p class="message-line">Tab mujhe laga it's all just... mai desperate hu like love ke liye and all. Bohot saare thoughts aaye, like kahi main sach mein like or love karu toh it will just ruin everything.</p>
+            <p class="message-line">Then maine sab, you know, unn feelings ko suppress karna start kiya. Aur mera ek hi motive thaa: like tumhari move on karne mein help karu aur woh "hate towards men" ko kam karu, then I will leave like I never existed.</p>
+            <p class="message-line">Par nahi hua, aur zyada hone laga. Like woh games, woh gaane jo tumhari yaad dilate hain... phir imagination mein chala jaata. Then woh baat yaad aayi:</p>
+            <p class="message-line">"Firstly they act like the sweetest people, but they act like this to all girls. Secondly, mixed signals dena. Third, woh bolega woh tumse baat karna sabse zyada pasand karta hai, but after some time they are gonna ghost."</p>
+            <p class="message-line">"Fourth, they don't share anything and want us to understand the mind, idk how. Fifth, they never try to overexplain if we overthink or we are sad. Sixth, after some days they are gonna be bored and get a new girl 'bestfriend'."</p>
+            <p class="message-line">"Seventh, they never try to understand us and think we are moody. Eighth, they leave. At last, they will say 'you never understand me' or 'you think too much, I can't handle it'."</p>
+            <p class="message-line">Yeh baat ne na mera puraa mindset hi badal diya thaa. Like ab suppress karna is not an option. Par uss time achha nahi thaa, so wait kiya. Like dekho, uske baad kuch sahi nahi chal raha tha, kuch na kuch arguments chal rahe the... baad mein 1 month, I guess.</p>
+            <p class="message-line">Dekho, randomly kisike baare mein sochna is different, par tumhe toh kuch zyada hi soch raha tha—anime, sunset, etc etc. Full overload hogaya. Ab bolunga toh kya hoga, nahi toh kya hoga?</p>
+            <p class="message-line">Like heart is saying "pyaar hai, confess kardo," but brain is saying "no, bol degi toh phir breakdown hojaoge." Then brain ko zyada burden dene se usne bhi kaha ki bol hi do, so us din bol diya.</p>
+            <p class="message-line">Aur nahi bologi toh accept karke shaant hona socha tha, par bolne ke baad give up karne ka mann nahi hua. So I tried and tried, like koi chance hai kya? Uske liye tumhe bhot doubts the.</p>
+            <p class="message-line">Maine I guess solve kara thaa, aur 6 months tha actual timeline. Baad mein sab normal hua, par tumhe phir bhi doubts the post-confession ke baare mein, toh pata hai sab tumhe. Yaar hogaya, attached hogaya, pyaar hogaya.</p>
+            <p class="message-line">Aur "Ek baat jante ho? Jo log bolte hai they don't want, they actually fall first" — yeh yaad hai? Sach hogaya yaar. Aur "I am sure tumhara mindset toh mai is saal mein change kardungi" — yeh bhi tumne hi kardi hai.</p>
+            <p class="message-line">Aur "Just close your eyes for some time, and think about someone or something that you like the most, or any moment that lifts your mood." Yeh baat yaad hai? Tab mere mind mein kya aaya tha pata hai? Ek face jo maine sirf ek baar dekha tha: You.</p>
+            <p class="message-line">I know the confession wasn't that flashy, par I'm really lucky that I met you. Tumne bhot kuch achhi changes kar di hain yaar mere life mein. Aur haan, tum chaho toh mere upar hass sakti ho, par main jo bhi karta hu seriously karta hu. So I'm not playing any games with you.</p>
+            <p class="message-line">Jo bhi aaj share kar raha hu sab true hai and I mean it 100%. Ek childish baat jante ho kya? Main na bhot sapne dekhta hu ki main aur tum kya-kya karenge jab milenge, aur hamara future... Haan pata hai ki ye ek dream ya fantasy hai, par I really want all that to happen in reality.</p>
+            <p class="message-line">Ye sab maine tab likha tha jab tumne apni diary ke baare mein bataya tha. I thought I should give it a try to express my feelings. Ek hi baar mein sab kuch bata nahi sakta, par iska matlab ye nahi ki kuch chupana chahta hu tumse.</p>
+            <p class="message-line">Because I want to tell you all the facts and truth about me: I know I am not the guy you wanted. I know that more than anyone. I'm not the best or perfect guy for you. Sometimes I feel like I’m an idiot, and I know I am an introvert, shy guy.</p>
+            <p class="message-line">Par even if there is no chance for me, I want to try my best. Haan main introvert hu, par I know how to care for and love the girl I fell for. Lekin ye sab long-term mein shayad matter na kare kyunki ek aur truth ye hai ki I'm not a rich ass guy.</p>
+            <p class="message-line">I'm hanging in between the rich bar and the poverty line. I have to struggle for real to get settled. Aur shayad mujhe male pattern baldness bhi hai, confirm nahi hai par I guess wahi hai... so yeah, wo bhi shuru ho gayi hai.</p>
+            <p class="message-line">Main overthink karta hu aur kabhi-kabhi cheezein mess up kar deta hu. Aur sabse upar, I don't want to drag you down in your studies or anything. Actually ye sab mujhe birthday pe nahi bolna chahiye tha, par main kuch chupana nahi chahta. Ye main hu—with all my flaws and truths.</p>
+            <p class="message-line">Mujhe sach me nahi pata yaar like kya se kya hoga, kaise hoga... par mujhe pasand ho yaar. And I really love everything about you—jo bhi tumhare traumas hain, tumhare doubts hain, sab clear karne mai help karna chahta hu, saath rehna chahta hu.</p>
+            <p class="message-line">Tumhari woh bak-bak sunna pasand hai, woh "suno na," sab se lat lag gayi hai. Woh pyari voice, woh hasi, woh childishness, woh jo tum mere liye care karti ho, padhne ko bolti ho, daat-ti ho... yaar sab se pyaar hogaya hai yaar.</p>
+            <p class="message-line">Mujhe nahi pata sahi hai ya galat par, will you be with me like this forever? Nahi yaar, zyada bol diya maine, like bhot zyada. Tum saath dene ko ready ho ye sab sunne ke baad bhi, toh tum aur mai can become "We," right?</p>
+            <p class="message-line">Nahi, matlab whatever your decision is, I accept it. So feel free to share anything you want to. Par I really want these 100 days to grow to 1000, and then 10000. So yahi hai mera sab jo batana thaa, kuch cheezein miss hogayi hongi par it's ok.</p>
+            <p class="message-line">Lastly, a very Happy Birthday my love ❤</p>
         </div>
 
         <div id="letter-footer">
             Yours Always,<br>
-            [Your Name Here]
+              Abhi
         </div>
 
     </div>
 
     <script>
         // --- CONFIGURATION ---
-        const CORRECT_PASSWORD = "zuzuu"; // <--- PASSWORD
-        const TYPING_SPEED = 30; // Speed in ms
+        const CORRECT_PASSWORD = "sampurna09122009"; // <--- PASSWORD
+        const TYPING_SPEED = 20; 
         
         const gate = document.getElementById('password-gate');
         const input = document.getElementById('password-input');
@@ -139,22 +178,38 @@
         const lines = document.querySelectorAll('.message-line');
         let lineContents = [];
 
-        // 1. Capture text immediately on load using textContent
-        // We use textContent because innerText can be empty if the element is hidden!
+        // 1. Capture text immediately on load
         lines.forEach(line => {
             lineContents.push(line.textContent);
-            line.textContent = ''; // Clear it visually
+            line.textContent = ''; 
         });
 
         // 2. Typing Logic
         function typeLine(lineIndex, charIndex) {
+            
             if (lineIndex >= lines.length) {
+                // When typing is totally done, show the signature
                 footer.classList.add('show');
+                // One final smooth scroll to ensure the signature is seen
+                setTimeout(() => {
+                    letterContainer.scrollTo({ top: letterContainer.scrollHeight, behavior: 'smooth' });
+                }, 100);
                 return;
             }
 
             const currentElement = lines[lineIndex];
             const currentText = lineContents[lineIndex];
+
+            // Smart Scroll: Only scroll gently when STARTING a new paragraph
+            if (charIndex === 0) {
+                 const rect = currentElement.getBoundingClientRect();
+                 const containerRect = letterContainer.getBoundingClientRect();
+                 
+                 // If the new paragraph is near the bottom or below, nudge it up
+                 if (rect.bottom > containerRect.bottom - 50) {
+                     currentElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                 }
+            }
 
             currentElement.classList.add('typing-active');
 
@@ -163,7 +218,7 @@
                 setTimeout(() => typeLine(lineIndex, charIndex + 1), TYPING_SPEED);
             } else {
                 currentElement.classList.remove('typing-active');
-                setTimeout(() => typeLine(lineIndex + 1, 0), 300); // Pause between lines
+                setTimeout(() => typeLine(lineIndex + 1, 0), 300); 
             }
         }
 
@@ -191,5 +246,4 @@
 
     </script>
 </body>
-
 </html>
