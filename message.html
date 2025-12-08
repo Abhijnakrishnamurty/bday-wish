@@ -16,7 +16,6 @@
             --text-pink: hsl(356, 95%, 68%);
         }
         body {
-            /* Ensure you have an image at this path or change the URL */
             background: #000 url('./images/wp6001771.jpg') no-repeat center center fixed;
             background-size: cover;
             font-family: 'Poppins', sans-serif;
@@ -52,16 +51,13 @@
             border: 5px solid var(--ink); border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); padding: 40px;
             text-align: center; position: relative;
-            /* Height settings */
             height: 80vh; 
-            overflow-y: auto; /* Allows scrolling */
-            
-            /* Starts Hidden */
+            overflow-y: auto; 
             opacity: 0; visibility: hidden; transition: opacity 1s;
         }
         #letter-container.unlocked { opacity: 1; visibility: visible; }
 
-        /* Custom Scrollbar for the letter */
+        /* Custom Scrollbar */
         #letter-container::-webkit-scrollbar { width: 8px; }
         #letter-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
         #letter-container::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
@@ -95,20 +91,49 @@
         /* --- Footer (Signature) --- */
         #letter-footer {
             margin-top: 30px; 
-            text-align: right; /* Aligns signature to right */
+            text-align: right; 
             font-family: 'Sriracha', cursive;
             font-size: 1.5rem; color: var(--text-pink);
-            opacity: 0; transition: opacity 2s; /* Slow fade in */
+            opacity: 0; transition: opacity 2s; 
             font-weight: bold;
             padding-bottom: 20px;
         }
         #letter-footer.show { opacity: 1; }
         
+        /* MOBILE TWEAKS */
         @media (max-width: 500px) {
             #letter-container { padding: 20px; }
             #letter-header { font-size: 2rem; }
             #letter-content { font-size: 0.95rem; }
             #letter-footer { font-size: 1.2rem; }
+        }
+
+        /* ====================================================== */
+        /* DESKTOP MODE SCALING (THE FIX) */
+        /* ====================================================== */
+        @media (min-width: 768px) {
+            /* Make Password Gate Bigger */
+            #password-gate { padding: 50px; border-radius: 20px; }
+            #password-gate h2 { font-size: 2.5rem; margin-bottom: 30px; }
+            #password-input { width: 400px; font-size: 1.5rem; padding: 15px; }
+            #error-message { font-size: 1.2rem; }
+
+            /* Make Letter Bigger */
+            #letter-container { 
+                max-width: 1000px; /* Wider card */
+                padding: 60px;
+                border-width: 8px;
+            }
+            #letter-header { font-size: 4rem; margin-bottom: 40px; }
+            
+            /* Text Scaling for Desktop */
+            #letter-content { 
+                font-size: 1.6rem; /* Much bigger text */
+                line-height: 1.8; 
+            }
+            .message-line { margin-bottom: 25px; }
+            
+            #letter-footer { font-size: 2.5rem; margin-top: 60px; }
         }
     </style>
 </head>
@@ -159,14 +184,14 @@
 
         <div id="letter-footer">
             Yours Always,<br>
-              Abhi
+            Abhi
         </div>
 
     </div>
 
     <script>
         // --- CONFIGURATION ---
-        const CORRECT_PASSWORD = "sampurna09122009"; // <--- PASSWORD
+        const CORRECT_PASSWORD = "sampurna09122009"; 
         const TYPING_SPEED = 20; 
         
         const gate = document.getElementById('password-gate');
