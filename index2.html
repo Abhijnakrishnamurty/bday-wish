@@ -59,7 +59,11 @@
         }
 
         #wrapper {
-            width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6);
+            width: 100%; height: 100%;
+            /* FIXED: REMOVED BLACK OVERLAY SO IMAGE IS CLEAR */
+            background: transparent; 
+            /* Optional: slight gradient at bottom so buttons are readable */
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 40%);
             position: relative; display: flex; flex-direction: column; align-items: center;
         }
 
@@ -72,22 +76,14 @@
         .flag__birthday .flag__right { transform: rotate(10deg) translate(10px, 10px) scaleX(-1); width: 150px; }
 
         .title {
-            position: relative; 
-            margin-top: 70px; 
-            z-index: 10; 
-            text-align: left; 
-            padding-left: 25px; 
-            font-family: "Titan One", sans-serif; 
-            font-size: 3.5rem; 
-            width: 100%;
-            line-height: 1.1;
+            position: relative; margin-top: 70px; z-index: 10; text-align: left; padding-left: 25px; 
+            font-family: "Titan One", sans-serif; font-size: 3.5rem; width: 100%; line-height: 1.1;
         }
-        .title .happy { color: var(--white); text-shadow: 4px 4px 0 var(--black); display: block; }
-        .title .birthday { color: var(--text-pink); text-shadow: 4px 4px 0 var(--black); display: block; }
+        /* Added Stronger Shadow for readability without black background */
+        .title .happy { color: var(--white); text-shadow: 4px 4px 0 #000, -1px -1px 0 #000; display: block; }
+        .title .birthday { color: var(--text-pink); text-shadow: 4px 4px 0 #000, -1px -1px 0 #000; display: block; }
 
-        /* --- 2. ANIMATIONS TRIGGER ONLY AFTER LOAD --- */
-        
-        /* FLYING PHOTO */
+        /* --- 2. ANIMATIONS --- */
         .flying-container {
             position: absolute; bottom: -600px; left: 50%; transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -112,37 +108,30 @@
         .balloon-set { position: absolute; top: -80px; width: 100%; display: flex; justify-content: space-between; pointer-events: none; z-index: 3; }
         .balloon-set img { width: 80px; } 
 
-        /* --- MOVED LOVE CLOCK (TOP RIGHT) --- */
-        /* --- MOVED LOVE CLOCK (TOP RIGHT) --- */
-.love-clock {
-    position: absolute; 
-    top: 50px; /* Moved UP to the corner */
-    right: 20px; 
-    left: auto; 
-    background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
-    border-radius: 20px; padding: 15px 20px;
-    border: 2px solid rgba(255,255,255,0.3);
-    font-size: 1.1rem; 
-    text-align: center; opacity: 0;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    z-index: 20; 
-}
+        /* --- CLOCK (Top Right) --- */
+        .love-clock {
+            position: absolute; top: 50px; right: 20px; left: auto; 
+            background: rgba(0, 0, 0, 0.4); /* Darker background for readability */
+            backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 15px 20px;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-size: 1.1rem; text-align: center; opacity: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 20; 
+        }
         body.loaded .love-clock {
-            animation: slideInRight 1s forwards; animation-delay: 5s; /* Changed animation to slide from right */
+            animation: slideInRight 1s forwards; animation-delay: 5s; 
         }
         @keyframes slideInRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
         /* MUSIC CONTROL */
-        /* MUSIC CONTROL */
-.music-control {
-    position: absolute; 
-    top: 180px; /* Moved DOWN below the clock */
-    right: 20px;
-    background: rgba(255,255,255,0.2); backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.5); width: 50px; height: 50px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; z-index: 100; color: white; font-size: 1.4rem;
-}
+        .music-control {
+            position: absolute; top: 180px; right: 20px;
+            background: rgba(0, 0, 0, 0.4); /* Darker background */
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.5); width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 100; color: white; font-size: 1.4rem;
+        }
 
         /* BUTTON */
         .main-action {
@@ -171,7 +160,7 @@
         @keyframes fadeInSlide { from { opacity: 0; } to { opacity: 1; } }
 
         .slider-lock {
-            width: 100%; height: 55px; background: rgba(255, 255, 255, 0.2);
+            width: 100%; height: 55px; background: rgba(0, 0, 0, 0.4); /* Darker */
             border-radius: 50px; backdrop-filter: blur(5px); padding: 5px;
             overflow: hidden; position: relative; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
@@ -225,7 +214,7 @@
         .wish-text {
             position: absolute; top: -50px; width: 150px; left: 50%; transform: translateX(-50%);
             text-align: center; font-size: 0.8rem; color: #fff; pointer-events: none;
-            animation: floatText 2s infinite ease-in-out;
+            animation: floatText 2s infinite ease-in-out; text-shadow: 2px 2px 4px #000;
         }
         @keyframes floatText { 0%, 100% { transform: translate(-50%, 0); } 50% { transform: translate(-50%, -5px); } }
 
@@ -251,7 +240,7 @@
         .candle-msg.show { transform: translate(-50%, -50%) scale(1); }
 
         /* ====================================================== */
-        /* LARGE SCREEN / DESKTOP MODE SCALING FIX */
+        /* LARGE SCREEN FIXES */
         /* ====================================================== */
         @media (min-width: 768px) {
             .title { margin-top: 80px; font-size: 5rem; padding-left: 50px; }
@@ -262,13 +251,9 @@
             .main-action { bottom: 30%; transform: translateX(-50%) scale(1.5); }
             .slide-action { top: 300px; transform: translateX(-50%) scale(1.5); }
             
-            /* Desktop Clock Position */
             .love-clock { 
-                font-size: 1.5rem; 
-                padding: 25px; 
-                top: 100px; /* Aligned with top section */
-                right: 40px; 
-                left: auto;
+                font-size: 1.5rem; padding: 25px; 
+                top: 100px; right: 40px; left: auto;
             }
             .music-control { width: 60px; height: 60px; font-size: 1.5rem; }
         }
@@ -365,7 +350,7 @@
         });
 
         // --- CONFIG ---
-        const startDate = new Date(2025, 6, 27); // Change this to past date!
+        const startDate = new Date(2025, 6, 27); 
 
         const music = document.getElementById('bg-music');
         const musicIcon = document.getElementById('music-icon');
@@ -539,4 +524,3 @@
     </script>
 </body>
 </html>
-
