@@ -84,49 +84,40 @@
         .title .birthday { color: var(--text-pink); text-shadow: 4px 4px 0 #000, -1px -1px 0 #000; display: block; }
 
         /* --- 2. ANIMATIONS --- */
-        /* --- 2. ANIMATIONS --- */
+        
+        /* FIXED: Using 'margin: auto' instead of 'transform' to lock horizontal center */
         .flying-container {
             position: absolute; 
             bottom: -600px; 
-            left: 50%; 
-            /* This centers it initially */
-            transform: translateX(-50%);
+            
+            /* ROCK SOLID CENTERING */
+            left: 0;
+            right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             width: 350px; z-index: 5; opacity: 0;
-            /* Hint browser to prepare for movement */
-            will-change: bottom, transform; 
         }
 
         body.loaded .flying-container {
             opacity: 1;
-            /* cubic-bezier makes it start fast and slow down smoothly */
             animation: flyUpWithBalloons 6s cubic-bezier(0.17, 0.67, 0.31, 1.15) forwards;
             animation-delay: 0.5s;
         }
 
-        /* THE FIX: We force the translateX(-50%) inside the animation so it never jumps */
+        /* Simplified Animation - No X-axis math required */
         @keyframes flyUpWithBalloons { 
             0% { 
                 bottom: -600px; 
-                transform: translateX(-50%); /* Force Center */
             } 
             100% { 
                 bottom: 42%; 
-                transform: translateX(-50%); /* Force Center */
             } 
         }
         
         .floating-content { animation: gentleFloat 3s infinite ease-in-out; animation-delay: 6.5s; }
         @keyframes gentleFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-
-        .image-box {
-            width: 330px; height: 330px; border-radius: 50%; border: 8px solid var(--white); 
-            overflow: hidden; background: #fff;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; z-index: 2;
-        }
-        .image-box img { width: 100%; height: 100%; object-fit: cover; }
-        .balloon-set { position: absolute; top: -80px; width: 100%; display: flex; justify-content: space-between; pointer-events: none; z-index: 3; }
-        .balloon-set img { width: 80px; }
 
         /* --- CLOCK (Top Right) --- */
         .love-clock {
@@ -544,3 +535,4 @@
     </script>
 </body>
 </html>
+
