@@ -238,10 +238,6 @@
             text-align: center; pointer-events: none;
         }
         .candle-msg.show { transform: translate(-50%, -50%) scale(1); }
-
-        /* ====================================================== */
-        /* LARGE SCREEN FIXES */
-        /* ====================================================== */
         @media (min-width: 768px) {
             .title { margin-top: 80px; font-size: 5rem; padding-left: 50px; }
             .flag__birthday .flag__left, .flag__birthday .flag__right { width: 250px; }
@@ -334,14 +330,14 @@
             <div class="message-container">
                 <button class="close-message" style="position:absolute; right:20px; top:20px; border:none; background:none; font-size:1.5rem; cursor:pointer;"><i class="fa-solid fa-times"></i></button>
                 <h2 style="font-family:'Dancing Script'; color:#0752f4; margin-bottom:15px; font-size: 3.5rem; line-height: 1.2;">Meri Choti Don❤️</h2>
-                <div class="typing-text" id="msg-text" style="text-align:left; line-height:1.6; font-size: 0.95rem;"></div>
+                <div class="typing-text" id="msg-text" style="text-align:left; line-height:1.6; font-size: 1.4rem;"></div>
             </div>
         </div>
 
     </div>
 
     <script>
-        // --- 1. LOADER LOGIC ---
+        
         window.addEventListener('load', () => {
             const loader = document.getElementById('loader');
             loader.style.opacity = '0';
@@ -349,7 +345,7 @@
             setTimeout(() => { loader.style.display = 'none'; }, 1000);
         });
 
-        // --- CONFIG ---
+        
         const startDate = new Date(2025, 6, 27); 
 
         const music = document.getElementById('bg-music');
@@ -524,3 +520,4 @@
     </script>
 </body>
 </html>
+
