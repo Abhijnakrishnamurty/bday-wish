@@ -60,10 +60,7 @@
 
         #wrapper {
             width: 100%; height: 100%;
-            /* FIXED: REMOVED BLACK OVERLAY SO IMAGE IS CLEAR */
-            background: transparent; 
-            /* Optional: slight gradient at bottom so buttons are readable */
-            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent 40%);
+            background: transparent; /* Clean background */
             position: relative; display: flex; flex-direction: column; align-items: center;
         }
 
@@ -79,7 +76,6 @@
             position: relative; margin-top: 70px; z-index: 10; text-align: left; padding-left: 25px; 
             font-family: "Titan One", sans-serif; font-size: 3.5rem; width: 100%; line-height: 1.1;
         }
-        /* Added Stronger Shadow for readability without black background */
         .title .happy { color: var(--white); text-shadow: 4px 4px 0 #000, -1px -1px 0 #000; display: block; }
         .title .birthday { color: var(--text-pink); text-shadow: 4px 4px 0 #000, -1px -1px 0 #000; display: block; }
 
@@ -110,9 +106,8 @@
 
         /* --- CLOCK (Top Right) --- */
         .love-clock {
-            position: absolute; top: 50px; right: 20px; left: auto; 
-            background: rgba(0, 0, 0, 0.4); /* Darker background for readability */
-            backdrop-filter: blur(10px);
+            position: absolute; top: 30px; right: 20px; left: auto; 
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(10px);
             border-radius: 20px; padding: 15px 20px;
             border: 2px solid rgba(255,255,255,0.3);
             font-size: 1.1rem; text-align: center; opacity: 0;
@@ -123,11 +118,10 @@
         }
         @keyframes slideInRight { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 
-        /* MUSIC CONTROL */
+        /* MUSIC CONTROL (Below Clock) */
         .music-control {
-            position: absolute; top: 180px; right: 20px;
-            background: rgba(0, 0, 0, 0.4); /* Darker background */
-            backdrop-filter: blur(5px);
+            position: absolute; top: 140px; right: 20px;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px);
             border: 1px solid rgba(255,255,255,0.5); width: 50px; height: 50px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; z-index: 100; color: white; font-size: 1.4rem;
@@ -160,7 +154,7 @@
         @keyframes fadeInSlide { from { opacity: 0; } to { opacity: 1; } }
 
         .slider-lock {
-            width: 100%; height: 55px; background: rgba(0, 0, 0, 0.4); /* Darker */
+            width: 100%; height: 55px; background: rgba(0, 0, 0, 0.4);
             border-radius: 50px; backdrop-filter: blur(5px); padding: 5px;
             overflow: hidden; position: relative; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         }
@@ -240,22 +234,63 @@
         .candle-msg.show { transform: translate(-50%, -50%) scale(1); }
 
         /* ====================================================== */
-        /* LARGE SCREEN FIXES */
+        /* LARGE SCREEN / DESKTOP MODE SCALING FIX */
         /* ====================================================== */
-        @media (min-width: 768px) {
-            .title { margin-top: 80px; font-size: 5rem; padding-left: 50px; }
-            .flag__birthday .flag__left, .flag__birthday .flag__right { width: 250px; }
-            .flying-container { width: 600px; }
-            .image-box { width: 550px; height: 550px; border-width: 12px; }
-            .cake-wrapper { transform: translateX(-50%) scale(2.0); bottom: 100px; }
-            .main-action { bottom: 30%; transform: translateX(-50%) scale(1.5); }
-            .slide-action { top: 300px; transform: translateX(-50%) scale(1.5); }
+        /* Trigger when width is greater than typical mobile (e.g. Desktop Mode) */
+        @media (min-width: 1000px) {
             
-            .love-clock { 
-                font-size: 1.5rem; padding: 25px; 
-                top: 100px; right: 40px; left: auto;
+            /* HUGE TITLE */
+            .title { 
+                margin-top: 50px; 
+                font-size: 6rem; /* Massive Title */
+                padding-left: 80px; 
             }
-            .music-control { width: 60px; height: 60px; font-size: 1.5rem; }
+            
+            /* BIGGER FLAGS */
+            .flag__birthday .flag__left, .flag__birthday .flag__right { 
+                width: 300px; 
+            }
+            
+            /* MASSIVE IMAGE */
+            .flying-container { width: 700px; }
+            .image-box { 
+                width: 600px; 
+                height: 600px; 
+                border-width: 15px; 
+            }
+            /* Animation adjustment for large screens */
+            @keyframes flyUpWithBalloons { 0% { bottom: -800px; } 100% { bottom: 45%; } }
+
+            /* CAKE SCALE */
+            .cake-wrapper { 
+                transform: translateX(-50%) scale(2.5); /* 2.5x Bigger */
+                bottom: 120px; 
+            }
+            
+            /* BUTTON SCALE */
+            .main-action { 
+                bottom: 35%; 
+                transform: translateX(-50%) scale(1.8); 
+            }
+            
+            /* SLIDER SCALE */
+            .slide-action { 
+                top: 400px; /* Push down */
+                transform: translateX(-50%) scale(1.8); 
+            }
+            
+            /* CLOCK & MUSIC POSITION */
+            .love-clock { 
+                font-size: 2rem; 
+                padding: 30px; 
+                top: 60px; 
+                right: 60px; 
+            }
+            .music-control { 
+                width: 80px; height: 80px; font-size: 2rem; 
+                top: 220px; /* Below the big clock */
+                right: 60px;
+            }
         }
     </style>
 </head>
